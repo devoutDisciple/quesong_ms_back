@@ -8,6 +8,7 @@ const SwiperModel = swiper(sequelize);
 module.exports = {
 	getAll: async (req, res) => {
 		try {
+			return res.send(resultMessage.success([]));
 			let swiper = await SwiperModel.findAll({
 				where: {
 					is_delete: {

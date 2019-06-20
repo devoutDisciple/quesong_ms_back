@@ -8,6 +8,7 @@ const TypeModel = type(sequelize);
 module.exports = {
 	getAll: async (req, res) => {
 		try {
+			return res.send(resultMessage.success([]));
 			let type = await TypeModel.findAll({
 				where: {
 					is_delete: {

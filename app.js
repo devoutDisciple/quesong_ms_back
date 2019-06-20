@@ -7,10 +7,12 @@ const sessionParser = require("express-session");
 const bodyParser = require("body-parser");
 const controller = require("./controller/index");
 const path = require("path");
-/* global __dirname */
+const loginMiddleware = require("./middleware/loginMiddleware");
+const config = require("./config/AppConfig");
+
 
 // 解析cookie和session还有body
-app.use(cookieParser()); // 挂载中间件，可以理解为实例化
+app.use(cookieParser(config.cookieSign)); // 挂载中间件，可以理解为实例化
 app.use(sessionParser({
 	"secret": "ruidoc",     // 签名，与上文中cookie设置的签名字符串一致，
 	"cookie": {
@@ -35,6 +37,9 @@ app.all("*", (req, res, next) => {
 	res.header("X-Powered-By", "3.2.1");
 	next();
 });
+
+// 判断用户是否登录
+app.use(loginMiddleware);
 
 // 路由 controller层
 controller(app);

@@ -9,9 +9,12 @@ const orderController = require("./orderController");
 const evaluateController = require("./evaluateController");
 const freeController = require("./freeController");
 const timeController = require("./timeController");
+const accoutController = require("./accoutController");
 const router = (app) => {
 	// 用户
 	app.use("/user", userController);
+	// 角色
+	app.use("/account", accoutController);
 	// 轮播图
 	app.use("/swiper", swiperController);
 	// 商品分类

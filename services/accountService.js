@@ -1,28 +1,30 @@
 const resultMessage = require("../util/resultMessage");
-// const sequelize = require("../dataSource/MysqlPoolClass");
-// const account = require("../models/account");
-// const accountModel = account(sequelize);
+const sequelize = require("../dataSource/MysqlPoolClass");
+const account = require("../models/account");
+const accountModel = account(sequelize);
 
 module.exports = {
-	// 根据商店id获取评价
-	getLogin: async (req, res) => {
-		// let shopid = req.query.shopid;
+	// 用户登录
+	login: async (req, res) => {
 		try {
-			// 增加评价
-			// let evaluates = await evaluateModel.findAll({
-			// 	where: {
-			// 		shopid: shopid
-			// 	},
-			// 	order: [
-			// 		// will return `name`  DESC 降序  ASC 升序
-			// 		["create_time", "DESC"],
-			// 	]
-			// });
-			// let result = [];
-			// evaluates.map(item => {
-			// 	result.push(item.dataValues);
-			// });
-			res.send(resultMessage.success([]));
+			let {username, password} = req.body;
+			let user = await accountModel.findOne({
+				where: {
+					username: username
+				}
+			});
+			console.log(user);
+			console.log(username, password);
+			if(!user || password != user.password) return res.send(resultMessage.specilError(400, "用户名或密码错误!"));
+			let value = `${username}_#$%^%$#_${password}`;
+			res.cookie(
+				"userinfo", value, {
+					expires: new Date(Date.now() + 10000 * 60 * 60 * 2),
+					signed: true,
+					httpOnly: true
+				}
+			);  //signed 表示对cookie加密
+			res.send(resultMessage.success(user));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

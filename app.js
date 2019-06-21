@@ -30,12 +30,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger(":method :url :status :res[content-length] - :response-time ms"));
 
 app.all("*", (req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+	res.header("Access-Control-Allow-Origin", req.headers.origin);
+	res.header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild");
 	res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 	res.header("Access-Control-Allow-Credentials", true); //可以带cookies
 	res.header("X-Powered-By", "3.2.1");
-	next();
+	if (req.method == "OPTIONS") {
+		res.send(200); // 意思是，在正常的请求之前，会发送一个验证，是否可以请求。
+	} else {
+		next();
+	}
 });
 
 // 判断用户是否登录

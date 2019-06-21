@@ -3,8 +3,8 @@ const router = express.Router();
 const accountService = require("../services/accountService");
 
 // 根据商店id获取评价
-router.get("/login", (req, res) => {
-	accountService.getLogin(req, res);
+router.post("/login", (req, res) => {
+	accountService.login(req, res);
 });
 
 module.exports = router;

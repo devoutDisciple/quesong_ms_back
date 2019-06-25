@@ -11,6 +11,11 @@ module.exports = function(sequelize) {
 			allowNull: true,
 			defaultValue: "学校名称"
 		},
+		sort: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true,
+			defaultValue: 1
+		},
 		is_delete: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true,

@@ -4,6 +4,15 @@ const account = require("../models/account");
 const accountModel = account(sequelize);
 
 module.exports = {
+	// 查看用户是否登录
+	isLogin: async (req, res) => {
+		try {
+			res.send(resultMessage.success([]));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
 	// 用户登录
 	login: async (req, res) => {
 		try {
@@ -24,7 +33,20 @@ module.exports = {
 					httpOnly: true
 				}
 			);  //signed 表示对cookie加密
-			res.send(resultMessage.success(user));
+			res.send(resultMessage.success({
+				username: user.username,
+				role: user.role
+			}));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+	// 用户退出登录
+	logout: async (req, res) => {
+		try {
+			res.clearCookie("userinfo");
+			res.send(resultMessage.success([]));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

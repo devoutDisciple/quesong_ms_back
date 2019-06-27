@@ -11,6 +11,11 @@ module.exports = function(sequelize) {
 			allowNull: true,
 			defaultValue: "学校名称"
 		},
+		floor: {
+			type: Sequelize.STRING(8000),
+			allowNull: true,
+			defaultValue: "[]"
+		},
 		sort: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true,

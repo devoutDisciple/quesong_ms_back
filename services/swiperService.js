@@ -13,11 +13,11 @@ module.exports = {
 					is_delete: {
 						[Op.not]: ["2"]
 					},
-					campus: req.query.position
+					campus: req.query.position || ""
 				},
 				order: [
 					// will return `name`  DESC 降序  ASC 升序
-					["sort", "ASC"],
+					["sort", "DESC"],
 				]
 			});
 			let result = [];

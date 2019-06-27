@@ -9,10 +9,14 @@ module.exports = {
 	// 获取所有位置信息
 	getAll: async (req, res) => {
 		try {
+			let name = req.query.name || "";
 			let type = await CampusModel.findAll({
 				where: {
 					is_delete: {
 						[Op.not]: ["2"]
+					},
+					name: {
+						[Op.like]: "%" + name + "%"
 					},
 				},
 				order: [
